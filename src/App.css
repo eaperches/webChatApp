@@ -23,6 +23,7 @@ body {
   z-index: 99;
   padding: 10px;
   box-sizing: border-box;
+  cursor: default;
 }
 
 .App section {

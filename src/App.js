@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect, componentDidMount } from 'react';
 import './App.css';
 
 import firebase from 'firebase/app';
@@ -72,7 +72,7 @@ function ChatRoom() {
 
   const [messages] = useCollectionData(query, {idField: 'id'});
 
-  const [formValue, setFormValue] = useState('');
+  const [formValue, setFormValue] = useState(''); //useState hook is used to give states to functional components. In class components this is not needed.
 
   const sendMessage = async(e) => { //async functions allow us to use "await"
 
@@ -92,6 +92,17 @@ function ChatRoom() {
     attentionSeeker.current.scrollIntoView({ behavior: "smooth"});
 
   }
+
+  function asd(){
+
+  }
+
+  /**
+   * This hook is executed upon rendering, allowing the scroll to start at the bottom instead of top.
+   */
+  useEffect(() => {
+    attentionSeeker.current.scrollIntoView();
+  });
 
   return (
     <>
@@ -120,7 +131,7 @@ function ChatMessage(props){
 
   return (
     <div className={`message ${messageClass}`}>
-      <img src={ photoURL } style={{borderRadius: "50%"}} />
+      <img src={ photoURL } />
       <p>{text}</p>
     </div>
   )
