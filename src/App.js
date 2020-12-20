@@ -35,7 +35,8 @@ function App() {
   return (
     <div className="App">
       <header>
-
+        <h1>⚛️</h1>
+        <SignOut />
       </header>
 
       <section>
@@ -63,6 +64,9 @@ function SignOut() {
 }
 
 function ChatRoom() {
+
+  const attentionSeeker = useRef("attentionSeeker");
+
   const messagesRef = firestore.collection('messages');
   const query = messagesRef.orderBy('createdAt').limit(25);
 
@@ -85,17 +89,20 @@ function ChatRoom() {
 
     setFormValue('');
 
+    attentionSeeker.current.scrollIntoView({ behavior: "smooth"});
+
   }
 
   return (
     <>
-      <div>
+      <main>
         {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
-      </div>
+        <div ref={attentionSeeker}></div>
+      </main>
 
       <form onSubmit={sendMessage}>
 
-        <input value={formValue} onChange={(e) => setFormValue(e.target.value)}/>
+        <input value={formValue} placeholder="Enter Message" onChange={(e) => setFormValue(e.target.value)}/>
 
         <button type="submit"><IoMdSend /></button>
 
@@ -113,7 +120,7 @@ function ChatMessage(props){
 
   return (
     <div className={`message ${messageClass}`}>
-      <img src={ photoURL } />
+      <img src={ photoURL } style={{borderRadius: "50%"}} />
       <p>{text}</p>
     </div>
   )
