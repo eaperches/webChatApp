@@ -131,7 +131,22 @@ p {
   align-items: center;
 }
 
+.card {
+  display: flex;
+  align-items: center;
+}
 
+.back {
+  color: blue;
+  background: red;
+}
+
+.front {
+  color: red;
+  background: blue;
+}
+
+/* TODO Need to use these sent to clean up chat and notecards  */
 .sent {
   flex-direction: row-reverse;
 }

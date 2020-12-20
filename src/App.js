@@ -32,15 +32,28 @@ const firestore = firebase.firestore();
 
 function App() {
   const [user] = useAuthState(auth);
+
+  // Show notecards or not
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [isNotecards, setIsNotecards] = useState(false);
+
   return (
     <div className="App">
       <header>
         <h1>⚛️</h1>
         <SignOut />
+        <button onClick={()=>{setIsNotecards(!isNotecards)}}>
+        {isNotecards ? ('Disable notecards') : ('Enable notecards')}
+        </button>
+        {isNotecards && (
+          <button onClick={()=>{setIsFlipped(!isFlipped)}}>
+            Flip
+          </button>
+        )}
       </header>
 
       <section>
-        {user ? <ChatRoom /> : <SignIn />}
+        {user ? <ChatRoom isNotecards={isNotecards} isFlipped={isFlipped}/> : <SignIn />}
       </section>
     </div>
   );
@@ -63,7 +76,7 @@ function SignOut() {
   )
 }
 
-function ChatRoom() {
+function ChatRoom(props) {
 
   const attentionSeeker = useRef("attentionSeeker");
 
@@ -71,6 +84,11 @@ function ChatRoom() {
   const query = messagesRef.orderBy('createdAt').limit(25);
 
   const [messages] = useCollectionData(query, {idField: 'id'});
+
+  // Collect Cards
+  const cardsRef = firestore.collection('cards');
+  const cardsQuery = cardsRef.orderBy('createdAt').limit(25);
+  const [cards] = useCollectionData(cardsQuery, {idField: 'id'});
 
   const [formValue, setFormValue] = useState('');
 
@@ -96,7 +114,8 @@ function ChatRoom() {
   return (
     <>
       <main>
-        {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+        {!props.isNotecards && messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+        {props.isNotecards && cards && cards.map(card => <NoteCard key={card.id} card={card} isFlipped={props.isFlipped}/>)}
         <div ref={attentionSeeker}></div>
       </main>
 
@@ -106,10 +125,19 @@ function ChatRoom() {
 
         <button type="submit"><IoMdSend /></button>
 
-
-
       </form>
     </>
+  )
+}
+
+function NoteCard(props){
+  const { frontText, backText, uid, photoURL } = props.card;
+
+  return (
+    <div className={`card ${props.isFlipped ? 'back' : 'front'}`}>
+      <img src={ photoURL } style={{borderRadius: "50%"}} />
+      <p>{props.isFlipped ? frontText : backText}</p>
+    </div>
   )
 }
 
