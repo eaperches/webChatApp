@@ -93,10 +93,6 @@ function ChatRoom() {
 
   }
 
-  function asd(){
-
-  }
-
   /**
    * This hook is executed upon rendering, allowing the scroll to start at the bottom instead of top.
    */
