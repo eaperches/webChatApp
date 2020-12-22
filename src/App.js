@@ -10,6 +10,7 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 /*icons*/
 import { IoMdSend } from "react-icons/io";
+import userIcon from "./img/user.png"
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
@@ -78,13 +79,14 @@ function ChatRoom() {
 
     e.preventDefault(); //prevents page from reloading when form is submitted
 
-    const { uid, photoURL } = auth.currentUser;
+    const { displayName, uid, photoURL } = auth.currentUser;
 
     await messagesRef.add({
+      name: displayName,
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
-      photoURL
+      photoURL,
     })
 
     setFormValue('');
@@ -93,12 +95,6 @@ function ChatRoom() {
 
   }
 
-  /**
-   * This hook is executed upon rendering, allowing the scroll to start at the bottom instead of top.
-   */
-  useEffect(() => {
-    attentionSeeker.current.scrollIntoView();
-  });
 
   return (
     <>
@@ -121,16 +117,20 @@ function ChatRoom() {
 }
 
 function ChatMessage(props){
-  const { text, uid, photoURL } = props.message;
+  const { name, text, uid, photoURL } = props.message;
 
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
 
-  return (
-    <div className={`message ${messageClass}`}>
-      <img src={ photoURL } />
-      <p>{text}</p>
-    </div>
-  )
+  return (<>
+      <div className={`message ${messageClass}`}>
+        <span>{name}</span>
+      </div>
+      
+      <div className={`message ${messageClass}`}>
+        <img src={ photoURL || userIcon } />
+        <p>{text}</p>
+      </div>
+    </>)
 }
 
 export default App;

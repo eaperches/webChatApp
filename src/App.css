@@ -142,9 +142,19 @@ p {
   background: #0b93f6;
   align-self: flex-end;
 }
+
+.sent span {
+  color: white;
+  align-self: flex-end;
+}
+
 .received p {
   background: #e5e5ea;
   color: black;
+}
+
+.received span {
+  color: white;
 }
 
 img {
