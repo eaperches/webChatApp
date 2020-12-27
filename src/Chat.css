@@ -2,13 +2,13 @@ body {
   background-color: #282c34;
 }
 
-.App {
+.Chat {
   text-align: center;
   max-width: 728px;
   margin: 0 auto;
 }
 
-.App header {
+.Chat header {
   background-color: #181717;
   height: 10vh;
   min-height: 50px;
@@ -26,7 +26,7 @@ body {
   cursor: default;
 }
 
-.App section {
+.Chat section {
   display: flex;
   flex-direction: column;
   justify-content: center;
