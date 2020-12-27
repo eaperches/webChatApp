@@ -72,7 +72,7 @@ function ChatRoom(props) {
   const attentionSeeker = useRef("attentionSeeker");
 
   const messagesRef = firestore.collection('messages');
-  const query = messagesRef.where('chatId', '==', props.chatId).orderBy('createdAt', 'desc').limit(25);
+  const query = messagesRef.where('chatId', '==', props.chatId).orderBy('createdAt').limit(25);
 
   const [messages] = useCollectionData(query, {idField: 'id'});
 
