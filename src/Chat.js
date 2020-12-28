@@ -69,20 +69,26 @@ function SignOut() {
 
 function ChatRoom(props) {
 
+  // Authentication for the current user.
+  const { displayName, uid, photoURL } = auth.currentUser;
+
   const attentionSeeker = useRef("attentionSeeker");
 
-  const messagesRef = firestore.collection('messages');
-  const query = messagesRef.where('chatId', '==', props.chatId).orderBy('createdAt').limit(25);
+  const memberRef = firestore.collection('members');
+  const memberQuery = memberRef.where('userId', '==', uid)
+    .where('roomId', '==', props.chatId)
+    .where('status', '==', 1);
+  const [memberAccess] = useCollectionData(memberQuery, {idField: 'id'});
 
-  const [messages] = useCollectionData(query, {idField: 'id'});
+  const messagesRef = firestore.collection('messages');
+  const messageQuery = messagesRef.where('chatId', '==', props.chatId).orderBy('createdAt').limit(25);
+  const [messages] = useCollectionData(messageQuery, {idField: 'id'});
 
   const [formValue, setFormValue] = useState(''); //useState hook is used to give states to functional components. In class components this is not needed.
 
   const sendMessage = async(e) => { //async functions allow us to use "await"
 
     e.preventDefault(); //prevents page from reloading when form is submitted
-
-    const { displayName, uid, photoURL } = auth.currentUser;
 
     await messagesRef.add({
       chatId: props.chatId,
@@ -101,22 +107,31 @@ function ChatRoom(props) {
 
 
   return (
-    <>
-      <main>
-        {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
-        <div ref={attentionSeeker}></div>
-      </main>
+    <div>
+      {memberAccess && memberAccess.length > 0 ? (
+          <>
+            <main>
+              {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+              <div ref={attentionSeeker}></div>
+            </main>
 
-      <form onSubmit={sendMessage}>
+            <form onSubmit={sendMessage}>
 
-        <input value={formValue} placeholder="Enter Message" onChange={(e) => setFormValue(e.target.value)}/>
+              <input value={formValue} placeholder="Enter Message" onChange={(e) => setFormValue(e.target.value)}/>
 
-        <button type="submit" disabled={!formValue}><IoMdSend /></button>
+              <button type="submit" disabled={!formValue}><IoMdSend /></button>
 
 
 
-      </form>
-    </>
+            </form>
+          </>
+        ) : (
+
+          <main>
+            <h1>{memberAccess ? "You do not have access to this chat." : "Loading..."}</h1>
+          </main>
+        )}
+    </div>
   )
 }
 
