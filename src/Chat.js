@@ -76,6 +76,12 @@ function ChatRoom(props) {
 
   const [messages] = useCollectionData(query, {idField: 'id'});
 
+  console.log(messages);
+
+  const lastMessage = messages == null ? null : messages[messages.length - 1];
+
+  const timeLimit = 5*60;
+
   const [formValue, setFormValue] = useState(''); //useState hook is used to give states to functional components. In class components this is not needed.
 
   const sendMessage = async(e) => { //async functions allow us to use "await"
@@ -86,7 +92,7 @@ function ChatRoom(props) {
 
     await messagesRef.add({
       chatId: props.chatId,
-      name: displayName,
+      name: lastMessage && (lastMessage.uid != uid || Date.now()/1000 - lastMessage.createdAt.seconds > timeLimit  )  ?  displayName : null,
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
