@@ -84,11 +84,9 @@ function ChatRoom(props) {
   const messageQuery = messagesRef.where('chatId', '==', props.chatId).orderBy('createdAt').limit(25);
   const [messages] = useCollectionData(messageQuery, {idField: 'id'});
 
-  console.log(messages);
-
   const lastMessage = messages == null ? null : messages[messages.length - 1];
 
-  const timeLimit = 5*60;
+  const timeLimit = 2*60; //timelimit to determine whether to put the name above message or not
 
   const [formValue, setFormValue] = useState(''); //useState hook is used to give states to functional components. In class components this is not needed.
 
