@@ -60,7 +60,7 @@ function Options(props) {
     .where('status', '==', 1);
   const [memberAccess] = useCollectionData(memberQuery, {idField: 'id'});
 
-  // Testing
+  // Testing, TODO - fix this, it sucks and has a bug
   const accessRef = firestore.collection('members');
   const accessQuery = accessRef.where('userId', '==', userAccess)
     .where('roomId', '==', selectedRoom)
