@@ -60,6 +60,14 @@ function Options(props) {
     .where('status', '==', 1);
   const [memberAccess] = useCollectionData(memberQuery, {idField: 'id'});
 
+  // Testing
+  const accessRef = firestore.collection('members');
+  const accessQuery = accessRef.where('userId', '==', userAccess)
+    .where('roomId', '==', selectedRoom)
+    .where('status', '==', 1);
+  const [accessAccess] = useCollectionData(accessQuery, {idField: 'id'});
+  // Testing ===========
+
   const options = memberAccess?.map((item) => {
     return {
       value: item.roomId,
@@ -71,21 +79,30 @@ function Options(props) {
 
     e.preventDefault(); //prevents page from reloading when form is submitted
 
-    await memberRef.add({
-      roomId: selectedRoom,
-      userId: userAccess,
-      status: 1,
-    })
+    // Check this user doesnt already have access
+    if (accessAccess && !(accessAccess?.length > 1))
+    {
+      await memberRef.add({
+        roomId: selectedRoom,
+        userId: userAccess,
+        status: 1,
+      })
+    }
   }
+
+  let formDisabled = !selectedRoom || !userAccess || !accessAccess || accessAccess?.length > 1;
 
   return (
     <>
       <p>Your user ID is: {uid}</p>
+      {accessAccess && accessAccess.length > 1 ? (
+        <p>This user has access to this room!</p>
+      ) : undefined}
       <p>Grant room access to other users:</p>
-      <Select options={options} onChange={(option) => setSelectedRoom(option)}/>
+      <Select options={options} onChange={(option) => setSelectedRoom(option.value)}/>
       <form onSubmit={submitAccessRequest}>
         <input value={userAccess} placeholder="Enter user ID to grant user access" onChange={(e) => setUserAccess(e.target.value)}/>
-        <button type="submit" disabled={!selectedRoom || !userAccess}/>
+        <button type="submit" disabled={formDisabled}/>
       </form>
     </>
   )
