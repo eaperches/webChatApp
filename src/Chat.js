@@ -1,7 +1,4 @@
 import React, { useRef, useState } from 'react';
-import './Chat.css';
-import SignOut from './SignOut';
-import SignIn from './SignIn';
 
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -9,6 +6,10 @@ import 'firebase/auth';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
+
+import './Chat.css';
+import SignOut from './SignOut';
+import SignIn from './SignIn';
 
 /*icons*/
 import { IoMdSend } from "react-icons/io";
