@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react';
 import './Chat.css';
+import SignOut from './SignOut';
+import SignIn from './SignIn';
 
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -22,7 +24,7 @@ if (!firebase.apps.length) {
     appId: "1:508324246470:web:b49eb6f7d75f561871b8c7",
     measurementId: "G-NB5MPG9FX0"
   });
-}else {
+} else {
   firebase.app();
 }
 
@@ -48,23 +50,6 @@ function Chat(props) {
       </section>
     </div>
   );
-}
-
-function SignIn() {
-  const signInWithGoogle = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
-  }
-
-  return(
-    <button onClick={signInWithGoogle}>Sign in with Google</button>
-  )
-}
-
-function SignOut() {
-  return auth.currentUser && (
-    <button onClick={() => auth.signOut()}>Sign Out</button>
-  )
 }
 
 function ChatRoom(props) {
@@ -96,7 +81,7 @@ function ChatRoom(props) {
 
     await messagesRef.add({
       chatId: props.chatId,
-      name: lastMessage && (lastMessage.uid != uid || Date.now()/1000 - lastMessage.createdAt.seconds > timeLimit  )  ?  displayName : null,
+      name: lastMessage && (lastMessage.uid !== uid || Date.now()/1000 - lastMessage.createdAt.seconds > timeLimit  )  ?  displayName : null,
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
