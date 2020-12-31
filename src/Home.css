@@ -1,10 +1,6 @@
-body {
-  background-color: #282c34;
-}
-
 .Home {
   text-align: center;
-  max-width: 728px;
+  max-width: 1300px;
   margin: 0 auto;
 }
 
@@ -15,7 +11,7 @@ body {
   color: white;
   position: fixed;
   width: 100%;
-  max-width: 728px;
+  max-width: 1300px;
   top: 0;
   display: flex;
   align-items: center;
@@ -32,4 +28,13 @@ body {
   justify-content: center;
   min-height: 100vh;
   background-color: rgb(40, 37, 53);
+}
+
+.Home label {
+  color: white;
+  margin-bottom: 4px;
+}
+
+.Home form {
+  max-width: 1300px;
 }

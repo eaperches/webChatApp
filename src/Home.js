@@ -68,7 +68,7 @@ function Options(props) {
   const [accessAccess] = useCollectionData(accessQuery, {idField: 'id'});
   // Testing ===========
 
-  const options = memberAccess?.map((item) => {
+  const roomOptions = memberAccess?.map((item) => {
     return {
       value: item.roomId,
       label: item.roomId // TODO: Add room name here.
@@ -98,8 +98,9 @@ function Options(props) {
       {accessAccess && accessAccess.length > 1 ? (
         <p>This user has access to this room!</p>
       ) : undefined}
-      <p>Grant room access to other users:</p>
-      <Select options={options} onChange={(option) => setSelectedRoom(option.value)}/>
+      <label>Select room to grant to user:</label>
+      <Select options={roomOptions} onChange={(option) => setSelectedRoom(option.value)}/>
+
       <form onSubmit={submitAccessRequest}>
         <input value={userAccess} placeholder="Enter user ID to grant user access" onChange={(e) => setUserAccess(e.target.value)}/>
         <button type="submit" disabled={formDisabled}/>
