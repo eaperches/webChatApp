@@ -117,3 +117,12 @@ img {
   border-radius: 50%;
   margin: 2px 5px;
 }
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

@@ -9,8 +9,9 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 import './Home.css';
-import SignOut from './SignOut';
-import SignIn from './SignIn';
+import SignOut from '../LogIn/SignOut';
+import SignIn from '../LogIn/SignIn';
+import NavBar from '../NavBar/NavBar';
 
 if (!firebase.apps.length) {
   firebase.initializeApp({

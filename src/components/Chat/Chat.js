@@ -8,12 +8,12 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 import './Chat.css';
-import SignOut from './SignOut';
-import SignIn from './SignIn';
+import SignOut from '../LogIn/SignOut';
+import SignIn from '../LogIn/SignIn';
 
 /*icons*/
 import { IoMdSend } from "react-icons/io";
-import userIcon from "./img/user.png"
+import userIcon from "../../img/user.png";
 
 if (!firebase.apps.length) {
   firebase.initializeApp({

@@ -1,0 +1,23 @@
+.UserCard {
+    width: 100%;
+    max-width: 300px;
+    height: 80px;
+    background-color: rgb(128, 128, 128);
+    display: flex;
+    align-items: center;
+    border-bottom: solid;
+    border-color: rgb(0, 0, 0);
+    cursor: pointer;
+}
+
+.UserCard img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 10px;;
+}
+
+.UserCard span {
+    margin-left: 10px;
+    margin-right: 10px;
+}
